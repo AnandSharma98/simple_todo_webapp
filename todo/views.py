@@ -18,10 +18,10 @@ def home(request):
 
 
 def signupuser(request):
-    if request.method == "GET":  # agar get h toh form dikao
+    if request.method == "GET":  # if method is get then show form
         return render(request, 'todo/signupuser.html', {'form': UserCreationForm()})
     else:  # else create new user
-        if request.POST['password1'] == request.POST['password2']:  # ye names jo h textfield ke h passwords wale jo form me h , so inspect ki help se dek skta h
+        if request.POST['password1'] == request.POST['password2']:
             try:
                 # here creating user and saving it
                 user = User.objects.create_user(request.POST['username'])
@@ -39,8 +39,7 @@ def signupuser(request):
 
 @login_required
 def currenttodos(request):
-    todos = Todo.objects.filter(user=request.user, datecompleted__isnull=True)  # yeh islie kuki hume user specific
-    # todoo dikana h , vo b jo complete nhi hua h that's y datecompleted__isnull=True is used
+    todos = Todo.objects.filter(user=request.user, datecompleted__isnull=True)  # to show user specific todo that isn't completed yet
     return render(request, 'todo/currenttodos.html', {'todos': todos})
 
 
@@ -50,7 +49,6 @@ def logoutuser(request):
         logout(request)
         return redirect('home')
 
-# yaha login.html se loginuser kia h
 def loginuser(request):
     if request.method == "GET":
         return render(request, 'todo/loginuser.html', {'form': AuthenticationForm()})
@@ -81,8 +79,7 @@ def createtodo(request):
 
 @login_required
 def viewtodo(request, todo_pk):
-    todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)  # user wala part islie such that , hum url me mje
-    # lekr dusre ki todoo na dek pae
+    todo = get_object_or_404(Todo, pk=todo_pk, user=request.user) 
     if request.method == "GET":  # when req is get , show the form with data
         form = TodoForm(instance=todo)  # this is to grab that todoo info and to show the form of todoo filled with
         # this info , its basically filling out the form automatically with that form kind of instance
@@ -100,7 +97,7 @@ def viewtodo(request, todo_pk):
 def completetodo(request, todo_pk):
     todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
     if request.method == "POST":
-        todo.datecompleted = timezone.now()  # ye set krne se , ab vo null nhi raha , so show up ni hoga
+        todo.datecompleted = timezone.now() 
         todo.save()
         return redirect('currenttodos')
 
@@ -114,6 +111,5 @@ def deletetodo(request, todo_pk):
 @login_required
 def completedtodo(request):
     todos = Todo.objects.filter(user=request.user, datecompleted__isnull=False).order_by('-datecompleted')
-    # yeh islie kuki hume user specific todoo dikana h , vo b jo complete hua h that's y datecompleted__isnull= False is
     # used, orderby - to show recent ones
     return render(request, 'todo/completedtodos.html', {'todos': todos})

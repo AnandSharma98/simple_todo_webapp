@@ -9,6 +9,8 @@ from .forms import TodoForm
 from .models import Todo
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required  # this is used to specify that login is required to access
+
+
 # particular page
 
 
@@ -21,7 +23,8 @@ def signupuser(request):
     if request.method == "GET":  # agar get h toh form dikao
         return render(request, 'todo/signupuser.html', {'form': UserCreationForm()})
     else:  # else create new user
-        if request.POST['password1'] == request.POST['password2']:  # ye names jo h textfield ke h passwords wale jo form me h , so inspect ki help se dek skta h
+        if request.POST['password1'] == request.POST[
+            'password2']:  # ye names jo h textfield ke h passwords wale jo form me h , so inspect ki help se dek skta h
             try:
                 # here creating user and saving it
                 user = User.objects.create_user(request.POST['username'])
@@ -37,6 +40,7 @@ def signupuser(request):
             return render(request, 'todo/signupuser.html', {'form': UserCreationForm(), 'error': 'Password did not '
                                                                                                  'match'})
 
+
 @login_required
 def currenttodos(request):
     todos = Todo.objects.filter(user=request.user, datecompleted__isnull=True)  # yeh islie kuki hume user specific
@@ -49,6 +53,7 @@ def logoutuser(request):
     if request.method == 'POST':
         logout(request)
         return redirect('home')
+
 
 # yaha login.html se loginuser kia h
 def loginuser(request):
@@ -64,6 +69,7 @@ def loginuser(request):
             login(request, user)  # to keep logged in the user
             return redirect('currenttodos')
 
+
 @login_required
 def createtodo(request):
     if request.method == "GET":
@@ -78,6 +84,7 @@ def createtodo(request):
         except ValueError:
             return render(request, 'todo/createtodo.html', {'form': TodoForm(), 'error': 'Bad data passed in'})
             # this error is when user typed too long title
+
 
 @login_required
 def viewtodo(request, todo_pk):
@@ -96,6 +103,7 @@ def viewtodo(request, todo_pk):
         except ValueError:
             return render(request, 'todo/viewtodo.html', {'form': todo, 'error': 'Bad info'})
 
+
 @login_required
 def completetodo(request, todo_pk):
     todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
@@ -104,12 +112,14 @@ def completetodo(request, todo_pk):
         todo.save()
         return redirect('currenttodos')
 
+
 @login_required
 def deletetodo(request, todo_pk):
     todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
     if request.method == "POST":
         todo.delete()
         return redirect('currenttodos')
+
 
 @login_required
 def completedtodo(request):

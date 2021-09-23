@@ -53,7 +53,6 @@ background-color: #cccccc;
     <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <!-- bas ye scene smj naa aya-->
                     <a href="#" onclick="$('#signOutBtn').click()" class="nav-link">Logout</a>
                     <form style='display: none;' method="POST" action="{% url 'logoutuser' %}">
                         {% csrf_token %}

@@ -124,4 +124,4 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-LOGIN_URL = '/login/'  # this url is of login page , needed to show user if not logged in while using @login_required
+LOGIN_URL = '/login/' 

@@ -2,6 +2,16 @@
 <!-- for any help use w3school-->
 <html lang="en">
 <head>
+    <style>
+body {
+  background-image: url('{% static "todo/bg.jpg" %}');
+  background-color: #cccccc;
+}
+
+nav {
+background-color: #cccccc;
+}
+</style>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -15,7 +25,7 @@
 <body>
 
 
-<nav class="navbar navbar-expand-md navbar-light bg-warning">
+<nav class="navbar navbar-expand-md navbar-light ">
 <div class="container">
     <a class="navbar-brand" href="{% url 'home' %}">
          <img src="{% static 'todo/logo.png' %}" width="30" height="30" class="d-inline-block align-top">
